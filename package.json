@@ -1,0 +1,38 @@
+{
+  "name": "colour",
+  "version": "0.0.0",
+  "description": "A comprehensive class for describing and manipulating colors.",
+  "main": "Color.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel Color.js --out-dir build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/tuomashatakka/colour.git"
+  },
+  "author": "tuomashatakka <tuomas.hatakka@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/tuomashatakka/colour/issues"
+  },
+  "homepage": "https://gitlab.com/tuomashatakka/colour#README",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-decorators": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0-beta.44",
+    "@babel/preset-env": "^7.0.0-beta.44",
+    "@babel/preset-flow": "^7.0.0-beta.44",
+    "@tuomashatakka/eslint-config": "^0.1.16",
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.19.1",
+    "eslint-import-resolver-webpack": "^0.9.0",
+    "eslint-plugin-block-padding": "0.0.2",
+    "eslint-plugin-flow": "^2.29.1",
+    "eslint-plugin-flowtype-errors": "^3.5.1",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-react": "^7.7.0"
+  }
+}
