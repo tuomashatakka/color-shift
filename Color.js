@@ -1,53 +1,116 @@
+
 import { mix, hue, saturation, luminance, brightness, isLight } from './color-functions'
 
 
 export default class Color {
 
-  static equal (c1, c2) { return checkEquality(c1, c2) }
-  static is (c1, c2) { return checkEquality(c1, c2) }
-  static from () { return resolveColor(...arguments) }
+  static equal (c1, c2) {
+    return checkEquality(c1, c2)
+  }
 
-  is (color) { return Color.equal(this, color) }
+  static is (c1, c2) {
+    return checkEquality(c1, c2)
+  }
 
-  constructor () {
-    let [ red, green, blue, alpha ] = arguments
-    let mid = (red + green + blue) / 3 < 1
+  static from () {
+    return resolveColor(...arguments)
+  }
 
+  is (color) {
+    return Color.equal(this, color)
+  }
+
+  constructor (red, green, blue, alpha = 1) {
+    let mid    = (red + green + blue) / 3 < 1
     this.red   = normalize(red,   mid)
     this.blue  = normalize(blue,  mid)
     this.green = normalize(green, mid)
     this.alpha = alpha ? normalize(alpha, alpha <= 1) : 255
+
     assertValidColor(this)
   }
 
-  get channels () { return [ this.red, this.green, this.blue ] }
-  get components () { return this.channels.concat([ this.alpha / 255 ]) }
-
-  get hue () { return hue(this) }
-  set hue (value) { return hue(this, value) }
-
-  get saturation () { return saturation(this) }
-  set saturation (value) { return saturation(this, value) }
-
-  get luminance () { return luminance(this) }
-  set luminance (value) { return luminance(this, value) }
-
-  get brightness () { return brightness(this) }
-
-  isLight () { return isLight(this) }
-  isDark () { return !this.isLight() }
-  mix (color, amount) { return mix(this, Color.from(color), amount) }
-  blend (color, mode ='mix') {
-    if (mode === 'mix') return mix(this, Color.from(color))
+  get channels () {
+    return [ this.red, this.green, this.blue ]
   }
 
-  get hex () { return this.toHex() }
-  get rgb () { return this.toRGB() }
-  get rgba () { return this.toRGBA() }
-  toHex () { return '#' + this.channels.map(toHex).join('') }
-  toRGB () { return `rgb(${this.channels.join(', ')})` }
-  toRGBA () { return `rgba(${this.components.join(', ')})` }
-  toString () { return this.toRGBA() }
+  get components () {
+    return this.channels.concat([ this.alpha / 255 ])
+  }
+
+  get hue () {
+    return hue(this)
+  }
+
+  set hue (value) {
+    return hue(this, value)
+  }
+
+  get saturation () {
+    return saturation(this)
+  }
+
+  set saturation (value) {
+    return saturation(this, value)
+  }
+
+  get luminance () {
+    return luminance(this)
+  }
+
+  set luminance (value) {
+    return luminance(this, value)
+  }
+
+  get brightness () {
+    return brightness(this)
+  }
+
+  isLight () {
+    return isLight(this)
+  }
+
+  isDark () {
+    return !this.isLight()
+  }
+
+  mix (color, amount) {
+    return mix(this, Color.from(color), amount)
+  }
+
+  blend (color, mode ='mix') {
+    if (mode === 'mix')
+      return mix(this, Color.from(color))
+  }
+
+  get hex () {
+    return this.toHex()
+  }
+
+  get rgb () {
+    return this.toRGB()
+  }
+
+  get rgba () {
+    return this.toRGBA()
+  }
+
+  toHex () {
+    return '#' + this.channels.map(toHex).join('')
+  }
+
+  toRGB () {
+    return `rgb(${this.channels.join(', ')})`
+  }
+
+  toRGBA () {
+    return `rgba(${this.components.join(', ')})`
+  }
+
+  toString () {
+    return this.toRGBA()
+  }
+
   toJSON () {
     let { red, green, blue, alpha } = this
     return { red, green, blue, alpha }
@@ -82,6 +145,7 @@ function normalize (val = 255, unit = false) {
 
 // eslint-disable-next-line complexity
 function resolveColor () {
+
   if (arguments[0] instanceof Color)
     return arguments[0]
 
@@ -91,17 +155,22 @@ function resolveColor () {
   let color = (arguments.length < 3)
     ? arguments[0]
     : Array.from(arguments)
+
   if (typeof last === 'object')
     props = last
 
   if (!color)
     return new Color(255, 255, 255)
+
   if (color[0] === '#')
     return createFrom.hex(color, ...args)
+
   else if ([3, 4].indexOf(color.length) > -1)
     return createFrom.rgb(color, ...args)
+
   else if (arguments.length === 1 && typeof last === 'object')
     return createFrom.col(color, ...args)
+
   throw new TypeError(
     `Invalid input for Color.from. The function accepts either a hex color value or a list of ` +
     `integers with a length of 3 or 4. Got ${arguments[1]}`)
@@ -109,6 +178,7 @@ function resolveColor () {
 
 
 const createFrom = {
+
   hex (color) {
     let r, g, b, a
     if (color.length < 6) {
@@ -140,6 +210,7 @@ const createFrom = {
       a || alpha,
       meta)
   }
+
 }
 
 

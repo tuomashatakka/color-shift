@@ -5,7 +5,7 @@
   "main": "Color.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel Color.js --out-dir build"
+    "build": "babel Color.js color-functions.js color-conversion.js --out-dir build"
   },
   "repository": {
     "type": "git",
