@@ -2,21 +2,31 @@
   "name": "colour",
   "version": "0.0.0",
   "description": "A comprehensive class for describing and manipulating colors.",
-  "main": "Color.js",
+  "keywords": [ "color", "colour", "palette", "contrast", "rgb", "" ],
+  "main": "dist/Color.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel Color.js color-functions.js color-conversion.js --out-dir build"
+    "clean": "rm -fr dist",
+    "build": "node scripts/build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/tuomashatakka/colour.git"
   },
   "author": "tuomashatakka <tuomas.hatakka@gmail.com>",
+  "contributors": [
+    "tuomashatakka <tuomas.hatakka@gmail.com>"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://gitlab.com/tuomashatakka/colour/issues"
   },
   "homepage": "https://gitlab.com/tuomashatakka/colour#README",
+  "engines": {
+    "node": true,
+    "browser": true
+  },
+  "dependencies": {
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.44",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",

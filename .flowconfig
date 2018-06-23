@@ -1,0 +1,12 @@
+[ignore]
+.*
+dist/
+node_modules/
+scripts/
+
+[include]
+src/
+
+[options]
+esproposal.decorators=ignore
+suppress_comment=\\(.\\|\n\\)*\\flow-ignore
