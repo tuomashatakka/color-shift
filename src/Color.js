@@ -12,6 +12,14 @@ export default class Color {
     return checkEquality(c1, c2)
   }
 
+  static rgb (red, green, blue, alpha) {
+    return createFrom.rgb([ red, green, blue, alpha ])
+  }
+
+  static hex (hex) {
+    return createFrom.hex(hex)
+  }
+
   static from () {
     return resolveColor(...arguments)
   }
