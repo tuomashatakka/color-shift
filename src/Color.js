@@ -145,27 +145,22 @@ function normalize (val = 255, unit = false) {
   let value = Math.max(0, Math.min(255, parseFloat(val)))
   if (isNaN(value))
     throw new TypeError(`Invalid value provided for normalize (<${typeof val}> ${val})`)
-  if (unit && (value < 1))
+  if (unit && value < 1)
     value *= 255
   return parseInt(value)
 }
 
 
-// eslint-disable-next-line complexity
-function resolveColor () {
+function resolveColor () { // eslint-disable-line complexity
 
   if (arguments[0] instanceof Color)
     return arguments[0]
 
-  let type, props = {}
   let last = arguments[arguments.length - 1]
   let args = Array.from(arguments).slice(1)
-  let color = (arguments.length < 3)
+  let color = arguments.length < 3
     ? arguments[0]
     : Array.from(arguments)
-
-  if (typeof last === 'object')
-    props = last
 
   if (!color)
     return new Color(255, 255, 255)
@@ -173,7 +168,7 @@ function resolveColor () {
   if (color[0] === '#')
     return createFrom.hex(color, ...args)
 
-  else if ([3, 4].indexOf(color.length) > -1)
+  else if ([ 3, 4 ].indexOf(color.length) > -1)
     return createFrom.rgb(color, ...args)
 
   else if (arguments.length === 1 && typeof last === 'object')
@@ -188,7 +183,7 @@ function resolveColor () {
 const createFrom = {
 
   hex (color) {
-    let r, g, b, a
+    let r, g, b, a // eslint-disable-line one-var-declaration-per-line
     if (color.length < 6) {
       r = parseInt(color.substr(1, 1), 16) * 16
       g = parseInt(color.substr(2, 1), 16) * 16
@@ -205,7 +200,6 @@ const createFrom = {
   },
 
   rgb (color, meta={}) {
-    let [ r, g, b, a ] = color
     return new Color(...color, meta)
   },
 
