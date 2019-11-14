@@ -38,6 +38,24 @@ export default class Color {
     assertValidColor(this)
   }
 
+  update (colors = {}) {
+    const { red, green, blue, alpha } = colors
+
+    if (!isNaN(Number(red)))
+      this.red = Number(red)
+    
+    if (!isNaN(Number(green)))
+      this.green = Number(green)
+    
+    if (!isNaN(Number(blue)))
+      this.blue = Number(blue)
+    
+    if (!isNaN(Number(alpha)))
+      this.alpha = Number(alpha)
+    
+    return this
+  }
+
   get channels () {
     return [ this.red, this.green, this.blue ]
   }

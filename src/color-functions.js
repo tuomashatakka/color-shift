@@ -72,17 +72,20 @@ const getLuminance  = (color) =>
 
 function setHue (color, hue) {
   const [ , saturation, luminance ] = rgbToHsl(...color.channels)
-  return Color.from(...hslToRgb((hue + 360) % 360, saturation, luminance))
+  const [ red, green, blue ] = hslToRgb((hue + 360) % 360 / 360, saturation, luminance)
+  return color.update({ red, green, blue })
 }
 
 function setSaturation (color, saturation) {
   const [ hue, , luminance ] = rgbToHsl(...color.channels)
-  return Color.from(...hslToRgb(hue, saturation, luminance))
+  const [ red, green, blue ] = hslToRgb(hue, saturation, luminance)
+  return color.update({ red, green, blue })
 }
 
 function setLuminance (color, luminance) {
   const [ hue, saturation, ] = rgbToHsl(...color.channels)
-  return Color.from(...hslToRgb(hue, saturation, luminance))
+  const [ red, green, blue ] = hslToRgb(hue, saturation, luminance)
+  return color.update({ red, green, blue })
 }
 
 function hueComponents (color) {
