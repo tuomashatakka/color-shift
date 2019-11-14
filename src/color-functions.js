@@ -1,18 +1,97 @@
-// Ƹ
-// ǝ
-// Β
-// Δ
-// Ε
-// Ζ
-// Η
-// function resolve (Ʃ) {
+// ƸΒΔΕΖƩǝ
+
 import Color from './Color'
 import { rgbToHsl, hslToRgb } from './color-conversion'
 
 
 const coefficients = [ 0.2127, 0.7152,  0.0722 ]
-const { PI, floor: round } = Math
+const { PI } = Math
 
+
+const sum = (val, c) => 
+  val + c
+
+function pad (str, fill = '0', n = 2) {
+  if (str.length > n)
+    return str.substr(str.length - 2, 2)
+  while (str.length < n)
+    str = fill + str
+  return str
+}
+
+function hex (number) {
+  let n = parseInt(number * 2.55).toString(16)
+  return pad(n)
+}
+
+function within (v, min, max) {
+  return Math.max(Math.min(v, max), min)
+}
+
+function rotation (color) {
+  let chs = hueComponents(color)
+  let y = 0
+  let x = 0
+  for (let rot in chs) {
+    let dy = Math.sin(rot) * chs[rot]
+    let dx = Math.cos(rot) * chs[rot]
+    x += dx
+    y += dy
+  }
+  return { x, y }
+}
+
+function colorsToHexString (colors) {
+  let a = hex(colors.alpha)
+  let r = hex(colors.red)
+  let g = hex(colors.green)
+  let b = hex(colors.blue)
+  if (isNaN(a))
+    a = ''
+  return '#' + a + r + g + b
+}
+
+function toNumber (input) {
+  if (typeof input === 'string')
+    return parseInt(input, 16)
+  else if (typeof input === 'number')
+    if (input <= 1)
+      return parseInt(input * 100)
+    else
+      return parseInt(input)
+}
+
+const getHue        = (color) => 
+  rgbToHsl(...color.channels)[0]
+
+const getSaturation = (color) => 
+  rgbToHsl(...color.channels)[1]
+
+const getLuminance  = (color) => 
+  rgbToHsl(...color.channels)[2]
+
+function setHue (color, hue) {
+  const [ , saturation, luminance ] = rgbToHsl(...color.channels)
+  return Color.from(...hslToRgb((hue + 360) % 360, saturation, luminance))
+}
+
+function setSaturation (color, saturation) {
+  const [ hue, , luminance ] = rgbToHsl(...color.channels)
+  return Color.from(...hslToRgb(hue, saturation, luminance))
+}
+
+function setLuminance (color, luminance) {
+  const [ hue, saturation, ] = rgbToHsl(...color.channels)
+  return Color.from(...hslToRgb(hue, saturation, luminance))
+}
+
+function hueComponents (color) {
+  return {
+    [0 / 3 * PI]: color.red / 255,
+    [2 / 3 * PI]: color.green / 255,
+    [4 / 3 * PI]: color.blue / 255,
+  }
+}
 
 
 /**
@@ -42,9 +121,6 @@ export function mix (c1, c2, f = 0.5) {
   return new Color(...tot, (c1.alpha + c2.alpha) / 2)
 }
 
-const sum = (val, c) => 
-  val + c
-
 export function pureBrightness ({ channels }) {
   let total = channels.reduce(sum, 0)
   return parseInt(total / channels.length)
@@ -67,8 +143,6 @@ export function isDark (color) {
   return !isLight(color)
 }
 
-
-
 export function relativeBrightness (color, channel=null) {
   const bri      = brightness(color)
   const deduct   = val => val - bri
@@ -76,71 +150,11 @@ export function relativeBrightness (color, channel=null) {
   return channel ? relative[channel] : relative
 }
 
-
-function radiansToDegrees (rad) {
-  return round(180 * rad / PI)
-}
-
-function degreesToRadians (deg) {
-  return deg / 180 * PI
-}
-
-function hueComponents (color) {
-  return {
-    [0 / 3 * PI]: color.red / 255,
-    [2 / 3 * PI]: color.green / 255,
-    [4 / 3 * PI]: color.blue / 255,
-  }
-}
-
-function rotation (color) {
-  let chs = hueComponents(color)
-  let y = 0, x = 0
-  for (let rot in chs) {
-    let dy = Math.sin(rot) * chs[rot]
-    let dx = Math.cos(rot) * chs[rot]
-    x += dx
-    y += dy
-  }
-  return { x, y }
-}
-
 export function intensity (color) {
   let { x, y } = rotation(color)
   let distance = Math.sqrt(x * x + y * y)
   return distance
 }
-
-
-
-
-function pad (str, fill = '0', n = 2) {
-  if (str.length > n)
-    return str.substr(str.length - 2, 2)
-  while (str.length < n)
-    str = fill + str
-  return str
-}
-
-function hex (number) {
-  let n = parseInt(number * 2.55).toString(16)
-  return pad(n)
-}
-
-function within (v, min, max) {
-  return Math.max(Math.min(v, max), min)
-}
-
-function toNumber (input) {
-  if (typeof input === 'string')
-    return parseInt(input, 16)
-  else if (typeof input === 'number')
-    if (input <= 1)
-      return parseInt(input * 100)
-    else
-      return parseInt(input)
-}
-
 
 function extractColors (...args) { // eslint-disable-line complexity, max-statements
 
@@ -184,16 +198,6 @@ function extractColors (...args) { // eslint-disable-line complexity, max-statem
 
 }
 
-function colorsToHexString (colors) {
-  let a = hex(colors.alpha)
-  let r = hex(colors.red)
-  let g = hex(colors.green)
-  let b = hex(colors.blue)
-  if (isNaN(a))
-    a = ''
-  return '#' + a + r + g + b
-}
-
 export const hue = (color, valueOrFormat = 'deg') => !isNaN(parseInt(valueOrFormat))
   ? setHue(color, valueOrFormat)
   : getHue(color, valueOrFormat)
@@ -203,29 +207,5 @@ export const saturation = (color, value) => value
   : getSaturation(color)
 
 export const luminance = (color, value) => value
-  ? setSaturation(color, value)
-  : getSaturation(color)
-
-export const getHue        = (color) => 
-  rgbToHsl(...color.channels)[0]
-
-export const getSaturation = (color) => 
-  rgbToHsl(...color.channels)[1]
-
-export const getLuminance  = (color) => 
-  rgbToHsl(...color.channels)[2]
-
-export function setHue (color, hue) {
-  const [ , saturation, luminance ] = rgbToHsl(...color.channels)
-  return Color.from(...hslToRgb((hue + 360) % 360, saturation, luminance))
-}
-
-export function setSaturation (color, saturation) {
-  const [ hue, , luminance ] = rgbToHsl(...color.channels)
-  return Color.from(...hslToRgb(hue, saturation, luminance))
-}
-
-export function setLuminance (color, luminance) {
-  const [ hue, saturation, ] = rgbToHsl(...color.channels)
-  return Color.from(...hslToRgb(hue, saturation, luminance))
-}
+  ? setLuminance(color, value)
+  : getLuminance(color)
