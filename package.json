@@ -1,5 +1,5 @@
 {
-  "name": "colour",
+  "name": "color-shift",
   "version": "0.0.0",
   "description": "A comprehensive class for describing and manipulating colors.",
   "keywords": [
@@ -8,12 +8,14 @@
     "palette",
     "contrast",
     "rgb",
-    ""
+    "hsl",
+    "color-conversion"
   ],
   "main": "dist/Color.js",
   "scripts": {
     "clean": "rm -fr dist",
-    "build": "node scripts/build"
+    "build": "node scripts/build",
+    "clean-build": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
