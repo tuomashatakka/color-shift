@@ -1,3 +1,7 @@
 {
-  extends: "@tuomashatakka"
+  "extends": "@tuomashatakka",
+  "rules": {
+    "block-padding/functions":        [ 1, 1, { "strategy": "at-least" }],
+    "block-padding/arrow-functions":  [ 1, 2, { "strategy": "at-most" }]
+  }
 }
