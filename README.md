@@ -1,3 +1,11 @@
 # color-shift
 
-A convenient color model for color conversions and management.
+![color-shift package logo][logo]
+
+A convenient color model implementation for color operations. 
+
+- Color conversions such as changing the brightness or saturation of a color
+- Mixing of colors
+
+
+[logo]: ./assets/color-shift-logo-transparent.png "Color Shift Logo"
