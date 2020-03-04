@@ -1,8 +1,15 @@
 node_modules
-src/**
+
+assets/**
+scripts/**
+etc/**
+
 .git
 .babelrc
+.eslintignore
 .eslintrc
+.flowconfig
 .gitignore
 .npmignore
-.flowconfig
+.vscode
+.DS_Store
