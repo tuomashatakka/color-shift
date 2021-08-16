@@ -1,4 +1,4 @@
-module.exports = {
+{
   extends: '@tuomashatakka',
   rules: {
     'block-padding/functions':        [ 'warn', 1, { strategy: 'at-least' }],
