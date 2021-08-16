@@ -1,11 +1,11 @@
 #!/usr/local/bin/node
-const { readdirSync:  readdir,
-        existsSync:   exists,
-        mkdirSync:    mkdir,
-        statSync:     stats,
-        writeFile }     = require('fs')
-const { resolve }       = require('path')
-const { transformFile } = require('@babel/core')
+import { readdirSync as readdir, existsSync as exists, mkdirSync as mkdir, statSync as stats, writeFile } from 'fs'
+import { resolve, join, dirname  } from 'path'
+import { fileURLToPath } from 'url'
+import babel from '@babel/core'
+
+global.__filename = fileURLToPath(import.meta.url)
+global.__dirname  = dirname(global.__filename)
 
 
 const DEST_PATH = resolve(__dirname, '../dist')
@@ -39,14 +39,14 @@ function transpile (filename) {
       : resolve(result.code)
 
     console.log("Transpiling file", path)
-    transformFile(path, opts, callback)
+    babel.transformFile(path, opts, callback)
   })
 }
 
 
 function write (filename, content) {
 
-  const path = resolve(DEST_PATH, filename)
+  const path = resolve(DEST_PATH, filename).replace(/\.mjs$/, '.js')
   return new Promise((resolve, reject) => {
 
     const callback = (error, result) => error
