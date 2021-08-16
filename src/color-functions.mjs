@@ -1,7 +1,7 @@
 // ƸΒΔΕΖƩǝ
 
-import Color from './Color'
-import { rgbToHsl, hslToRgb } from './color-conversion'
+import Color from './Color.mjs'
+import { rgbToHsl, hslToRgb } from './color-conversion.mjs'
 
 
 const coefficients = [ 0.2127, 0.7152,  0.0722 ]
