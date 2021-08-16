@@ -4,7 +4,7 @@
   "homepage": "https://gitlab.com/tuomashatakka/colour#README",
   "author": "tuomashatakka <tuomas.hatakka@gmail.com>",
   "license": "ISC",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "main": "src/index.mjs",
   "exports": {
