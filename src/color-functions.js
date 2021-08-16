@@ -32,7 +32,8 @@ function rotation (color) {
   let chs = hueComponents(color)
   let y = 0
   let x = 0
-  for (let rot in chs) {
+  let rot
+  for (rot in chs) {
     let dy = Math.sin(rot) * chs[rot]
     let dx = Math.cos(rot) * chs[rot]
     x += dx
@@ -130,8 +131,9 @@ export function pureBrightness ({ channels }) {
 }
 
 export function brightness ({ channels }) {
+  let col
   let v = 0
-  for (let col in channels) {
+  for (col in channels) {
     let d = channels[col] / 255
     v += coefficients[col] * (d < 0.03928 ? d / 12.92 : Math.pow((d + 0.055) / 1.055), 2.4)
   }

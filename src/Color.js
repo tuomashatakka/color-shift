@@ -43,16 +43,16 @@ export default class Color {
 
     if (!isNaN(Number(red)))
       this.red = Number(red)
-    
+
     if (!isNaN(Number(green)))
       this.green = Number(green)
-    
+
     if (!isNaN(Number(blue)))
       this.blue = Number(blue)
-    
+
     if (!isNaN(Number(alpha)))
       this.alpha = Number(alpha)
-    
+
     return this
   }
 
@@ -92,6 +92,52 @@ export default class Color {
     return brightness(this)
   }
 
+  getHue () {
+    return hue(this)
+  }
+
+  getSaturation () {
+    return saturation(this)
+  }
+
+  getLuminance () {
+    return luminance(this)
+  }
+
+  setHue (value) {
+    return hue(this, value)
+  }
+
+  setSaturation (value) {
+    return saturation(this, value)
+  }
+
+  saturate (amount=0.5) {
+    const initial = this.saturation
+    return saturation(this, initial + amount)
+  }
+
+  desaturate (amount=0.5) {
+    const initial = this.saturation
+    return saturation(this, initial - amount)
+  }
+
+  darken (amount=0.5) {
+    return mix(this, COLOR.BLACK, 1 - amount)
+  }
+
+  setLuminance (value) {
+    return luminance(this, value)
+  }
+
+  lighten (amount=0.5) {
+    return mix(this, COLOR.WHITE, 1 - amount)
+  }
+
+  darken (amount=0.5) {
+    return mix(this, COLOR.BLACK, 1 - amount)
+  }
+
   isLight () {
     return isLight(this)
   }
@@ -100,8 +146,8 @@ export default class Color {
     return !this.isLight()
   }
 
-  mix (color, amount) {
-    return mix(this, Color.from(color), amount)
+  mix (color, amount=0.5) {
+    return mix(this, Color.from(color), 1 - amount)
   }
 
   blend (color, mode ='mix') {
@@ -126,11 +172,11 @@ export default class Color {
   }
 
   toRGB () {
-    return `rgb(${this.channels.join(', ')})`
+    return `rgb(${this.channels.map(channel => Math.round(channel)).join(', ')})`
   }
 
   toRGBA () {
-    return `rgba(${this.components.join(', ')})`
+    return `rgba(${this.components.map(channel => Math.round(channel)).join(', ')})`
   }
 
   toString () {
@@ -141,6 +187,12 @@ export default class Color {
     let { red, green, blue, alpha } = this
     return { red, green, blue, alpha }
   }
+}
+
+
+const COLOR = {
+  BLACK: new Color(0, 0, 0),
+  WHITE: new Color(255, 255, 255),
 }
 
 
@@ -155,7 +207,7 @@ const toHex = c => {
   c = c.toString(16)
   while (c.length < 2)
     c = '0' + c
-  return c
+  return c.substr(0, 2)
 }
 
 
@@ -201,7 +253,8 @@ function resolveColor () { // eslint-disable-line complexity
 const createFrom = {
 
   hex (color) {
-    let r, g, b, a // eslint-disable-line one-var-declaration-per-line
+    let r, g, b, a // eslint-disable-line one-var
+
     if (color.length < 6) {
       r = parseInt(color.substr(1, 1), 16) * 16
       g = parseInt(color.substr(2, 1), 16) * 16

@@ -1,7 +1,18 @@
 {
   "name": "color-shift",
-  "version": "0.0.0",
   "description": "A comprehensive class for describing and manipulating colors.",
+  "homepage": "https://gitlab.com/tuomashatakka/colour#README",
+  "author": "tuomashatakka <tuomas.hatakka@gmail.com>",
+  "license": "ISC",
+  "version": "0.0.0",
+  "main": "dist/Color.js",
+  "exports": {
+    "node": {
+      "import": "./src/Color.mjs",
+      "require": "./dist/Color.js"
+    },
+    "default": "./dist/Color.mjs"
+  },
   "keywords": [
     "color",
     "colour",
@@ -11,28 +22,25 @@
     "hsl",
     "color-conversion"
   ],
-  "main": "dist/Color.js",
+  "engines": {
+    "node": "true",
+    "browser": "true"
+  },
   "scripts": {
     "clean": "rm -fr dist",
     "build": "node scripts/build",
+    "test": "eslint src",
     "clean-build": "npm run clean && npm run build"
   },
+  "contributors": [
+    "tuomashatakka <tuomas.hatakka@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/tuomashatakka/colour.git"
   },
-  "author": "tuomashatakka <tuomas.hatakka@gmail.com>",
-  "contributors": [
-    "tuomashatakka <tuomas.hatakka@gmail.com>"
-  ],
-  "license": "ISC",
   "bugs": {
     "url": "https://gitlab.com/tuomashatakka/colour/issues"
-  },
-  "homepage": "https://gitlab.com/tuomashatakka/colour#README",
-  "engines": {
-    "node": "true",
-    "browser": "true"
   },
   "dependencies": {},
   "devDependencies": {
@@ -40,17 +48,11 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
-    "@babel/plugin-transform-flow-strip-types": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
-    "@babel/preset-flow": "^7.8.3",
     "@tuomashatakka/eslint-config": "^0.2.2",
     "babel-eslint": "^8.2.2",
-    "eslint": "^4.19.1",
-    "eslint-import-resolver-webpack": "^0.9.0",
+    "eslint": "7.32.0",
     "eslint-plugin-block-padding": "0.0.3",
-    "eslint-plugin-flow": "^2.29.1",
-    "eslint-plugin-flowtype-errors": "^3.5.1",
-    "eslint-plugin-import": "^2.10.0",
-    "eslint-plugin-react": "^7.7.0"
+    "eslint-plugin-import": "^2.10.0"
   }
 }
