@@ -1,5 +1,5 @@
 
-import { mix, hue, saturation, luminance, brightness, isLight } from './color-functions'
+import { mix, hue, saturation, luminance, brightness, isLight } from './color-functions.mjs'
 
 
 export default class Color {
